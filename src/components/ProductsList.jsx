@@ -5,6 +5,7 @@ export default function ProductsList({ products }) {
 				display: 'flex',
 				flexWrap: 'wrap',
 				justifyContent: 'center',
+				gap: 5
 			}}
 		>
 			{products.map((product, index) => (
@@ -12,7 +13,6 @@ export default function ProductsList({ products }) {
 					key={index}
 					style={{
 						background: 'grey',
-						borderRadius: 15
 					}}
 				>
 					<div

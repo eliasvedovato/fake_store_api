@@ -13,7 +13,10 @@ export default function CategoryList({ categories, setSelectedCategory }) {
 				<li
 					key={i}
 					onClick={() => setSelectedCategory(c)}
-					style={{ cursor: 'pointer', userSelect: 'none' }}
+					style={{
+						cursor: 'pointer',
+						userSelect: 'none',
+					}}
 				>
 					{c}
 				</li>
