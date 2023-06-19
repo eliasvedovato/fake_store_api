@@ -11,7 +11,8 @@ export default function ProductsList({ products }) {
 				<ul
 					key={index}
 					style={{
-						background: product.price > 150 ? 'green' : 'red',
+						background: 'grey',
+						borderRadius: 15
 					}}
 				>
 					<div
@@ -20,7 +21,6 @@ export default function ProductsList({ products }) {
 							flexDirection: 'row',
 							flexWrap: 'wrap',
 							gap: 15,
-							// alignItems: 'center',
 						}}
 					>
 						<div>

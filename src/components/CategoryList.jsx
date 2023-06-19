@@ -10,7 +10,11 @@ export default function CategoryList({ categories, setSelectedCategory }) {
 			}}
 		>
 			{Array.from(categories).map((c, i) => (
-				<li key={i} onClick={() => setSelectedCategory(c)} style={{ cursor: 'pointer' }}>
+				<li
+					key={i}
+					onClick={() => setSelectedCategory(c)}
+					style={{ cursor: 'pointer', userSelect: 'none' }}
+				>
 					{c}
 				</li>
 			))}

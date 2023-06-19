@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import CategoryList from './components/CategoryList'
 import ProductsList from './components/ProductsList'
+import PriceFilter from './components/PriceFilter'
 
 function App() {
 	const [menuToggle, setMenuToggle] = useState(false)
 	const [products, setProducts] = useState([])
-	const [categories, setCategories] = useState(new Set())
+	const [categories, setCategories] = useState()
 	const [selectedCategory, setSelectedCategory] = useState('')
+	const [minValue, setMinValue] = useState(0)
+	const [maxValue, setMaxValue] = useState(0)
 
 	const api = 'https://fakestoreapi.com/products'
 
@@ -22,10 +25,6 @@ function App() {
 		defineCategories()
 	}, [products])
 
-	function handleClick() {
-		setMenuToggle(!menuToggle)
-	}
-
 	async function getProducts() {
 		const response = await fetch(`${api}`)
 		const jsonData = await response.json()
@@ -33,8 +32,13 @@ function App() {
 	}
 
 	function defineCategories() {
-		const newCategories = new Set(products.map(prod => prod.category))
+		const newCategories = new Set([...products.map(prod => prod.category)])
 		setCategories(newCategories)
+	}
+
+	const handlePriceFilter = (min, max) => {
+		setMinValue(min)
+		setMaxValue(max)
 	}
 
 	return (
@@ -46,32 +50,34 @@ function App() {
 				alignItems: 'center',
 			}}
 		>
-			<h3>Products</h3>
+			<button>Products</button>
 			<button
 				style={{
 					background: menuToggle ? 'green' : 'grey',
 				}}
-				onClick={() => handleClick()}
+				onClick={() => setMenuToggle(!menuToggle)}
 			>
 				{menuToggle ? 'Esconder filtros' : 'Mostar filtros'}
 			</button>
 			<div>
 				{menuToggle && (
-					<CategoryList
-						categories={categories}
-						setSelectedCategory={setSelectedCategory}
-					/>
+					<>
+						<CategoryList
+							categories={categories}
+							setSelectedCategory={setSelectedCategory}
+						/>
+						<PriceFilter onPriceFilter={handlePriceFilter} />
+					</>
 				)}
-				{selectedCategory == '' ? (
-					<ProductsList products={products} />
-				) : (
-					<ProductsList
-						products={products.filter(
-							prod => prod.category === selectedCategory
-						)}
-					/>
-				)}
-				{/* <ProductsList products={products} /> */}
+				<ProductsList
+					products={products.filter(
+						prod =>
+							(selectedCategory === '' ||
+								prod.category === selectedCategory) &&
+							(minValue === 0 || prod.price >= minValue) &&
+							(maxValue === 0 || prod.price <= maxValue)
+					)}
+				/>
 			</div>
 		</div>
 	)
