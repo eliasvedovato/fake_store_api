@@ -13,6 +13,7 @@ function App() {
 	const [minValue, setMinValue] = useState(0)
 	const [maxValue, setMaxValue] = useState(0)
 	const [orderBy, setOrderBy] = useState('')
+	const [resetFilter, setResetFilter] = useState(false)
 
 	const api = 'https://fakestoreapi.com/products'
 
@@ -27,24 +28,33 @@ function App() {
 		defineCategories()
 	}, [products])
 
+	useEffect(() => {
+		getProducts()
+	}, [orderBy])
+
 	const getProducts = async () => {
-		const response = await fetch(`${api}`)
-		const jsonData = await response.json()
+		try {
+			const response = await fetch(api)
+			const jsonData = await response.json()
 
-		// Ordenar los productos por precio ascendente o descendente
-		const sortedProducts = jsonData.sort((a, b) => {
-			if (orderBy === 'asc') {
-				return a.price - b.price
-			} else {
-				return b.price - a.price
-			}
-		})
+			const sortedProducts = jsonData.sort((a, b) => {
+				if (orderBy === 'desc') {
+					return a.price - b.price
+				} else {
+					return b.price - a.price
+				}
+			})
 
-		setProducts(sortedProducts)
+			setProducts(sortedProducts)
+		} catch (error) {
+			console.error('Error fetching products:', error)
+		}
 	}
 
 	const defineCategories = () => {
-		const newCategories = new Set([...products.map(prod => prod.category)])
+		const newCategories = new Set([
+			...products.map(({ category }) => category),
+		])
 		setCategories(newCategories)
 	}
 
@@ -53,17 +63,18 @@ function App() {
 		setMaxValue(max)
 	}
 
-	const handleOrderBy = (order) => {
+	const handleOrderBy = order => {
 		setOrderBy(order)
 	}
 
-	// const handleReloadProducts = async () => {
-	// 	setMinValue(0)
-	// 	setMaxValue(0)
-	// 	setCategories([])
-	// 	console.log('clicked')
-	// 	await getProducts()
-	// }
+	const handleAllProducts = () => {
+		// Resetea el estado de filtro al hacer clic en el botón
+		setSelectedCategory('')
+		setMinValue(0)
+		setMaxValue(0)
+		setOrderBy('')
+		setResetFilter(!resetFilter)
+	}
 
 	return (
 		<div
@@ -75,9 +86,7 @@ function App() {
 			}}
 		>
 			<div>
-				<button>
-					All products
-				</button>
+				<button onClick={handleAllProducts}>All products</button>
 				<button
 					style={{
 						background: menuToggle ? 'green' : 'grey',
@@ -88,47 +97,49 @@ function App() {
 				</button>
 			</div>
 
-			<div>
-				{menuToggle && (
+			{menuToggle && (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 5,
+						borderBottom: '2px solid grey',
+						borderTop: '2px solid grey',
+						padding: 10,
+						width: '100%',
+					}}
+				>
+					<CategoryList
+						categories={categories}
+						setSelectedCategory={setSelectedCategory}
+					/>
 					<div
 						style={{
 							display: 'flex',
-							flexDirection: 'column',
-							gap: 5,
-							border: '2px solid grey',
+							gap: 20,
+							flexWrap: 'wrap',
+							flexDirection: 'row',
+							justifyContent: 'space-around',
+							width: '100%',
 						}}
 					>
-						<CategoryList
-							categories={categories}
-							setSelectedCategory={setSelectedCategory}
+						<PriceFilter onPriceFilter={handlePriceFilter} />
+						<FilterOrder
+							onPriceOrder={handleOrderBy}
+							getProducts={getProducts}
 						/>
-						<div
-							style={{
-								display: 'flex',
-								gap: 20,
-								flexWrap: 'wrap',
-								flexDirection: 'row',
-								justifyContent: 'space-around',
-							}}
-						>
-							<PriceFilter onPriceFilter={handlePriceFilter} />
-							<FilterOrder
-								onPriceOrder={handleOrderBy}
-								getProducts={getProducts}
-							/>
-						</div>
 					</div>
+				</div>
+			)}
+			<ProductsList
+				products={products.filter(
+					prod =>
+						(selectedCategory === '' ||
+							prod.category === selectedCategory) &&
+						(minValue === 0 || prod.price >= minValue) &&
+						(maxValue === 0 || prod.price <= maxValue)
 				)}
-				<ProductsList
-					products={products.filter(
-						prod =>
-							(selectedCategory === '' ||
-								prod.category === selectedCategory) &&
-							(minValue === 0 || prod.price >= minValue) &&
-							(maxValue === 0 || prod.price <= maxValue)
-					)}
-				/>
-			</div>
+			/>
 		</div>
 	)
 }

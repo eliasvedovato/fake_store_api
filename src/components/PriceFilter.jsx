@@ -22,32 +22,38 @@ export default function PriceFilter({ onPriceFilter }) {
 		<div
 			style={{
 				display: 'flex',
+				flexWrap: 'wrap',
 				justifyContent: 'center',
 				gap: 20,
 				alignItems: 'center',
 			}}
 		>
-			<label htmlFor='min'>Min:</label>
-			<input
-				type='number'
-				id='min'
-				placeholder='min'
-				style={{ width: 80 }}
-				value={isNaN(max) ? 0 : min}
-				onChange={e => setMin(parseInt(e.target.value))}
-				onKeyDown={handleKeyDown}
-			></input>
+			<div>
+				<label htmlFor='min'>Min:</label>
+				<input
+					type='number'
+					id='min'
+					placeholder='min'
+					style={{ width: 80, marginLeft: 10 }}
+					value={isNaN(max) ? 0 : min}
+					onChange={e => setMin(parseInt(e.target.value))}
+					onKeyDown={handleKeyDown}
+				></input>
+			</div>
 			<span>-</span>
-			<label htmlFor='max'>Max:</label>
-			<input
-				type='number'
-				id='max'
-				placeholder='max'
-				style={{ width: 80 }}
-				value={isNaN(max) ? 0 : max}
-				onChange={e => setMax(parseInt(e.target.value))}
-				onKeyDown={handleKeyDown}
-			></input>
+			<div>
+				<label htmlFor='max'>Max:</label>
+				<input
+					type='number'
+					id='max'
+					placeholder='max'
+					style={{ width: 80, marginLeft: 10 }}
+					value={isNaN(max) ? 0 : max}
+					onChange={e => setMax(parseInt(e.target.value))}
+					onKeyDown={handleKeyDown}
+				></input>
+			</div>
+
 			<FaArrowRight
 				style={{
 					background: 'grey',

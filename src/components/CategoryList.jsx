@@ -6,19 +6,20 @@ export default function CategoryList({ categories, setSelectedCategory }) {
 				flexWrap: 'wrap',
 				gap: 25,
 				justifyContent: 'center',
-				background: 'grey',
 			}}
 		>
-			{Array.from(categories).map((c, i) => (
+			{Array.from(categories).map((c, index) => (
 				<li
-					key={i}
+					key={index}
 					onClick={() => setSelectedCategory(c)}
 					style={{
 						cursor: 'pointer',
 						userSelect: 'none',
+						font: 'bold',
+						borderBottom: '2px solid green',
 					}}
 				>
-					{c}
+					{c.toUpperCase()}
 				</li>
 			))}
 		</ul>

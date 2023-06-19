@@ -5,7 +5,7 @@ export default function ProductsList({ products }) {
 				display: 'flex',
 				flexWrap: 'wrap',
 				justifyContent: 'center',
-				gap: 5
+				gap: 5,
 			}}
 		>
 			{products.map((product, index) => (
@@ -19,6 +19,7 @@ export default function ProductsList({ products }) {
 						style={{
 							display: 'flex',
 							flexDirection: 'row',
+							justifyContent: 'center',
 							flexWrap: 'wrap',
 							gap: 15,
 						}}

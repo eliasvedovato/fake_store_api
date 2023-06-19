@@ -8,7 +8,6 @@ export default function FilterOrder({ onPriceOrder, getProducts }) {
     onPriceOrder(order)
     /* Llama a la función handlePriceOrder del componente 
     padre con el orden seleccionado */
-    getProducts(order)
     setToggleDropdown(false)
     // Cierra el dropdown después de seleccionar el orden
   }

@@ -22,6 +22,7 @@ li{
 ul{
   text-align: center;
   align-items: center;
+  padding-left: 0;
 }
 
 body {
