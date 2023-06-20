@@ -1,4 +1,11 @@
-export default function ProductsList({ products }) {
+import React from "react"
+import { Product } from "../App"
+
+interface ProductsListProps {
+	products: Product[]
+}
+
+export default function ProductsList({ products }: ProductsListProps) {
 	return (
 		<div
 			style={{
@@ -8,7 +15,7 @@ export default function ProductsList({ products }) {
 				gap: 5,
 			}}
 		>
-			{products.map((product, index) => (
+			{products.map((product: Product, index: number) => (
 				<ul
 					key={index}
 					style={{

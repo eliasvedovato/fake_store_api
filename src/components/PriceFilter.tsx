@@ -1,18 +1,23 @@
+import React from 'react'
 import { useState } from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 
-export default function PriceFilter({ onPriceFilter }) {
-	const [min, setMin] = useState(0)
-	const [max, setMax] = useState(0)
+interface PriceFilterProps {
+	onPriceFilter: (minValue: number, maxValue: number) => void
+}
+
+export default function PriceFilter({ onPriceFilter }: PriceFilterProps) {
+	const [min, setMin] = useState<number>(0)
+	const [max, setMax] = useState<number>(0)
 
 	const handlePrice = () => {
-		const minValue = parseInt(min)
-		const maxValue = parseInt(max)
+		const minValue = min
+		const maxValue = max
 
 		onPriceFilter(minValue, maxValue)
 	}
 
-	const handleKeyDown = e => {
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
 		if (e.key === 'Enter') {
 			handlePrice()
 		}
@@ -54,15 +59,7 @@ export default function PriceFilter({ onPriceFilter }) {
 				></input>
 			</div>
 
-			<FaArrowRight
-				style={{
-					background: 'grey',
-					padding: 10,
-					borderRadius: '100%',
-					cursor: 'pointer',
-				}}
-				onClick={handlePrice}
-			/>
+			<FaArrowRight style={{ cursor: 'pointer' }} onClick={handlePrice} />
 		</div>
 	)
 }

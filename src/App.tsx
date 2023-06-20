@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect } from 'react'
 import './App.css'
 import CategoryList from './components/CategoryList'
@@ -5,15 +6,24 @@ import ProductsList from './components/ProductsList'
 import PriceFilter from './components/PriceFilter'
 import FilterOrder from './components/FilterOrder'
 
-function App() {
-	const [menuToggle, setMenuToggle] = useState(false)
-	const [products, setProducts] = useState([])
-	const [categories, setCategories] = useState()
-	const [selectedCategory, setSelectedCategory] = useState('')
-	const [minValue, setMinValue] = useState(0)
-	const [maxValue, setMaxValue] = useState(0)
-	const [orderBy, setOrderBy] = useState('')
-	const [resetFilter, setResetFilter] = useState(false)
+export interface Product {
+	id: number
+	title: string
+	category: string
+	price: number
+	description: string
+	image: string
+}
+
+function App(): JSX.Element {
+	const [menuToggle, setMenuToggle] = useState<boolean>(false)
+	const [products, setProducts] = useState<Product[]>([])
+	const [categories, setCategories] = useState<Set<string>>(new Set())
+	const [selectedCategory, setSelectedCategory] = useState<string>('')
+	const [minValue, setMinValue] = useState<number>(0)
+	const [maxValue, setMaxValue] = useState<number>(0)
+	const [orderBy, setOrderBy] = useState<string>('')
+	const [resetFilter, setResetFilter] = useState<boolean>(false)
 
 	const api = 'https://fakestoreapi.com/products'
 
@@ -32,12 +42,12 @@ function App() {
 		getProducts()
 	}, [orderBy])
 
-	const getProducts = async () => {
+	const getProducts = async (): Promise<void> => {
 		try {
 			const response = await fetch(api)
 			const jsonData = await response.json()
 
-			const sortedProducts = jsonData.sort((a, b) => {
+			const sortedProducts = jsonData.sort((a: Product, b: Product) => {
 				if (orderBy === 'desc') {
 					return a.price - b.price
 				} else {
@@ -51,28 +61,27 @@ function App() {
 		}
 	}
 
-	const defineCategories = () => {
+	const defineCategories = (): void => {
 		const newCategories = new Set([
 			...products.map(({ category }) => category),
 		])
 		setCategories(newCategories)
 	}
 
-	const handlePriceFilter = (min, max) => {
+	const handlePriceFilter = (min: number, max: number): void => {
 		setMinValue(min)
 		setMaxValue(max)
 	}
 
-	const handleOrderBy = order => {
+	const handleOrderBy = (order: string) => {
 		setOrderBy(order)
 	}
 
-	const handleAllProducts = () => {
+	const handleAllProducts = (): void => {
 		// Resetea el estado de filtro al hacer clic en el botón
 		setSelectedCategory('')
 		setMinValue(0)
 		setMaxValue(0)
-		setOrderBy('')
 		setResetFilter(!resetFilter)
 	}
 
@@ -124,10 +133,7 @@ function App() {
 						}}
 					>
 						<PriceFilter onPriceFilter={handlePriceFilter} />
-						<FilterOrder
-							onPriceOrder={handleOrderBy}
-							getProducts={getProducts}
-						/>
+						<FilterOrder onPriceOrder={handleOrderBy} />
 					</div>
 				</div>
 			)}
