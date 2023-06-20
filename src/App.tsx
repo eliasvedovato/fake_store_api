@@ -85,69 +85,39 @@ function App(): JSX.Element {
 		setResetFilter(!resetFilter)
 	}
 
-	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: 10,
-				alignItems: 'center',
-			}}
-		>
-			<div>
-				<button onClick={handleAllProducts}>All products</button>
-				<button
-					style={{
-						background: menuToggle ? 'green' : 'grey',
-					}}
-					onClick={() => setMenuToggle(!menuToggle)}
-				>
-					{menuToggle ? 'Esconder filtros' : 'Mostar filtros'}
-				</button>
-			</div>
-
-			{menuToggle && (
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: 5,
-						borderBottom: '2px solid grey',
-						borderTop: '2px solid grey',
-						padding: 10,
-						width: '100%',
-					}}
-				>
-					<CategoryList
-						categories={categories}
-						setSelectedCategory={setSelectedCategory}
-					/>
-					<div
-						style={{
-							display: 'flex',
-							gap: 20,
-							flexWrap: 'wrap',
-							flexDirection: 'row',
-							justifyContent: 'space-around',
-							width: '100%',
-						}}
-					>
-						<PriceFilter onPriceFilter={handlePriceFilter} />
-						<FilterOrder onPriceOrder={handleOrderBy} />
-					</div>
+	 return (
+			<div className='container'>
+				<div className='buttons-container'>
+					<button onClick={handleAllProducts}>All products</button>
+					<button onClick={() => setMenuToggle(!menuToggle)}>
+						Filtros
+					</button>
 				</div>
-			)}
-			<ProductsList
-				products={products.filter(
-					prod =>
-						(selectedCategory === '' ||
-							prod.category === selectedCategory) &&
-						(minValue === 0 || prod.price >= minValue) &&
-						(maxValue === 0 || prod.price <= maxValue)
+
+				{menuToggle && (
+					<div className='filters-container'>
+						<CategoryList
+							categories={categories}
+							setSelectedCategory={setSelectedCategory}
+						/>
+						<div className='options-container'>
+							<PriceFilter onPriceFilter={handlePriceFilter} />
+							<FilterOrder onPriceOrder={handleOrderBy} />
+						</div>
+					</div>
 				)}
-			/>
-		</div>
-	)
+
+				<ProductsList
+					products={products.filter(
+						prod =>
+							(selectedCategory === '' ||
+								prod.category === selectedCategory) &&
+							(minValue === 0 || prod.price >= minValue) &&
+							(maxValue === 0 || prod.price <= maxValue)
+					)}
+				/>
+			</div>
+		)
 }
 
 export default App
