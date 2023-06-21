@@ -5,6 +5,7 @@ import CategoryList from './components/CategoryList'
 import ProductsList from './components/ProductsList'
 import PriceFilter from './components/PriceFilter'
 import FilterOrder from './components/FilterOrder'
+import Cart from './components/Cart'
 
 export interface Product {
 	id: number
@@ -30,7 +31,7 @@ function App(): JSX.Element {
 	/* Esto asegurará que la función defineCategories() se llame solo una vez 
 	al cargar el componente */
 	useEffect(() => {
-		getProducts()
+		// getProducts()
 	}, [])
 
 	// se ejecutará cuando el estado products cambie
@@ -87,6 +88,8 @@ function App(): JSX.Element {
 
 	 return (
 			<div className='container'>
+
+				<Cart />
 				<div className='buttons-container'>
 					<button onClick={handleAllProducts}>All products</button>
 					<button onClick={() => setMenuToggle(!menuToggle)}>
