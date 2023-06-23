@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import CategoryList from './components/CategoryList'
 import ProductsList from './components/ProductsList'
-import PriceFilter from './components/PriceFilter'
+import RangePriceFilter from './components/RangePriceFilter'
 import FilterOrder from './components/FilterOrder'
 import Cart from './components/Cart'
 
@@ -17,7 +17,7 @@ export interface Product {
 }
 
 function App(): JSX.Element {
-	const [menuToggle, setMenuToggle] = useState<boolean>(false)
+	const [filtersToggle, setFiltersToggle] = useState<boolean>(true)
 	const [products, setProducts] = useState<Product[]>([])
 	const [categories, setCategories] = useState<Set<string>>(new Set())
 	const [selectedCategory, setSelectedCategory] = useState<string>('')
@@ -70,6 +70,7 @@ function App(): JSX.Element {
 	}
 
 	const handlePriceFilter = (min: number, max: number): void => {
+		if(!min && !max) throw new Error('Enter min or/and max value')
 		setMinValue(min)
 		setMaxValue(max)
 	}
@@ -87,24 +88,24 @@ function App(): JSX.Element {
 	}
 
 	 return (
-			<div className='container'>
+			<div className='app'>
 
 				<Cart />
 				<div className='buttons-container'>
-					<button onClick={handleAllProducts}>All products</button>
-					<button onClick={() => setMenuToggle(!menuToggle)}>
+					<button onClick={handleAllProducts}>Get all products</button>
+					<button onClick={() => setFiltersToggle(!filtersToggle)}>
 						Filtros
 					</button>
 				</div>
 
-				{menuToggle && (
+				{filtersToggle && (
 					<div className='filters-container'>
 						<CategoryList
 							categories={categories}
 							setSelectedCategory={setSelectedCategory}
 						/>
 						<div className='options-container'>
-							<PriceFilter onPriceFilter={handlePriceFilter} />
+							<RangePriceFilter onPriceFilter={handlePriceFilter} />
 							<FilterOrder onPriceOrder={handleOrderBy} />
 						</div>
 					</div>

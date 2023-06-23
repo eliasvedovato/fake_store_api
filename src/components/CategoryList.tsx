@@ -9,24 +9,12 @@ export default function CategoryList({ categories, setSelectedCategory }: Catego
 	const categoryArray = categories ? Array.from(categories) : []
 
 	return (
-		<ul
-			style={{
-				display: 'flex',
-				flexWrap: 'wrap',
-				gap: 25,
-				justifyContent: 'center',
-			}}
-		>
+		<ul className='category-list'>
 			{categoryArray.map((category, index) => (
 				<li
 					key={index}
 					onClick={() => setSelectedCategory(category)}
-					style={{
-						cursor: 'pointer',
-						userSelect: 'none',
-						font: 'bold',
-						borderBottom: '2px solid green',
-					}}
+					className='each-category'
 				>
 					{category.toUpperCase()}
 				</li>

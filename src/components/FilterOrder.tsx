@@ -15,19 +15,10 @@ export default function FilterOrder({ onPriceOrder }) {
 
 	return (
 		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				flexDirection: 'column',
-			}}
+			className='order-by-flex'
 		>
 			<button
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					gap: 5,
-				}}
+				className='order-by-button'
 				onClick={() => setToggleDropdown(!toggleDropdown)}
 			>
 				Order by
@@ -38,21 +29,13 @@ export default function FilterOrder({ onPriceOrder }) {
 					style={{ display: 'flex', flexDirection: 'column', gap: 5 }}
 				>
 					<span
-						style={{
-							margin: 'auto',
-							cursor: 'pointer',
-							userSelect: 'none',
-						}}
+						className='order-by-options'
 						onClick={() => handleOrder('desc')}
 					>
 						Menor precio
 					</span>
 					<span
-						style={{
-							margin: 'auto',
-							cursor: 'pointer',
-							userSelect: 'none',
-						}}
+						className='order-by-options'
 						onClick={() => handleOrder('asc')}
 					>
 						Mayor precio

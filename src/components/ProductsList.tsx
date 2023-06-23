@@ -7,14 +7,7 @@ interface ProductsListProps {
 
 export default function ProductsList({ products }: ProductsListProps) {
 	return (
-		<div
-			style={{
-				display: 'flex',
-				flexWrap: 'wrap',
-				justifyContent: 'center',
-				gap: 5,
-			}}
-		>
+		<div className='products-container'>
 			{products.map((product: Product, index: number) => (
 				<ul
 					key={index}
@@ -22,15 +15,7 @@ export default function ProductsList({ products }: ProductsListProps) {
 						background: 'grey',
 					}}
 				>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'center',
-							flexWrap: 'wrap',
-							gap: 15,
-						}}
-					>
+					<div className='product-flex'>
 						<div>
 							<img
 								src={product.image}
@@ -38,14 +23,7 @@ export default function ProductsList({ products }: ProductsListProps) {
 								alt={product.title}
 							/>
 						</div>
-						<div
-							style={{
-								maxWidth: 200,
-								display: 'flex',
-								flexDirection: 'column',
-								justifyContent: 'space-between',
-							}}
-						>
+						<div className='product-info'>
 							<li
 								style={{
 									border: '1px solid white',
