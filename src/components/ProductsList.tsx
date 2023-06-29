@@ -1,4 +1,3 @@
-import React from "react"
 import { Product } from "../App"
 
 interface ProductsListProps {
@@ -6,11 +5,13 @@ interface ProductsListProps {
 }
 
 export default function ProductsList({ products }: ProductsListProps) {
+	const cartQuantity = 0
+
 	return (
 		<div className='products-container'>
-			{products.map((product: Product, index: number) => (
+			{products.map((product: Product) => (
 				<ul
-					key={index}
+					key={product.id}
 					style={{
 						background: 'grey',
 					}}
@@ -32,6 +33,26 @@ export default function ProductsList({ products }: ProductsListProps) {
 								{product.title}
 							</li>
 							<h3>${product.price}</h3>
+
+							{cartQuantity === 0 ? (
+								<button>+ Add to cart</button>
+							) : (
+								<>
+									<div className='manage-cart'>
+										<button>-</button>
+										<div>
+											<span style={{ fontSize: 20 }}>
+												{cartQuantity}
+											</span>{' '}
+											in cart
+										</div>
+
+										<button>+</button>
+									</div>
+
+									<button>Remove item</button>
+								</>
+							)}
 						</div>
 					</div>
 				</ul>

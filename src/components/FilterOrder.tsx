@@ -1,8 +1,11 @@
-import React from 'react'
 import { useState } from 'react'
 import { FaCaretDown } from 'react-icons/fa'
 
-export default function FilterOrder({ onPriceOrder }) {
+interface FilterOrderProps {
+	onPriceOrder: (order: string) => void
+}
+
+export default function FilterOrder({ onPriceOrder }: FilterOrderProps) {
 	const [toggleDropdown, setToggleDropdown] = useState(false)
 
    const handleOrder = (order: string) => {

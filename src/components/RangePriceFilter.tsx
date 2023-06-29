@@ -21,26 +21,28 @@ export default function PriceFilter({ onPriceFilter }: PriceFilterProps) {
 	}
 
 	return (
-		<div
-			className='range-price-flex'
-		>
-			<label htmlFor='min'>Min:</label>
-			<input
-				type='number'
-				id='min'
-				placeholder='min'
-				onChange={e => setMin(parseInt(e.target.value))}
-				onKeyDown={handleKeyDown}
-			></input>
+		<div className='range-price-flex'>
+			<div>
+				<label htmlFor='min' style={{marginRight: 10}}>Min:</label>
+				<input
+					type='number'
+					id='min'
+					placeholder='Min'
+					onChange={e => setMin(parseInt(e.target.value))}
+					onKeyDown={handleKeyDown}
+				></input>
+			</div>
 			<span>-</span>
-			<label htmlFor='max'>Max:</label>
-			<input
-				type='number'
-				id='max'
-				placeholder='max'
-				onChange={e => setMax(parseInt(e.target.value))}
-				onKeyDown={handleKeyDown}
-			></input>
+			<div>
+				<label htmlFor='max' style={{marginRight: 10}}>Max:</label>
+				<input
+					type='number'
+					id='max'
+					placeholder='Max'
+					onChange={e => setMax(parseInt(e.target.value))}
+					onKeyDown={handleKeyDown}
+				></input>
+			</div>
 
 			<FaArrowRight style={{ cursor: 'pointer' }} onClick={handlePrice} />
 		</div>

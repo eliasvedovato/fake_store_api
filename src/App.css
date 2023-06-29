@@ -13,6 +13,23 @@
 .buttons-container {
 	display: flex;
 	gap: 10px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.quantity-cart{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transform: translate(25%, 25%);
+	background: red;
+	border-radius: 50%;
+	padding: 5px;
+	height: 20px;
+  width: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .filters-container {
@@ -31,6 +48,7 @@
 	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-around;
+	align-items: center;
 	width: 100%;
 }
 
@@ -38,6 +56,7 @@
 	display: flex;
   flex-wrap: wrap;
   justify-content: center;
+	align-items: center;
   gap: 5px;
 }
 
@@ -45,6 +64,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	align-items: center;
 	flex-wrap: wrap;
 	gap: 15px;
 }
@@ -53,7 +73,15 @@
 	max-width: 200px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+	gap: 10px;
+	padding: 10px 0 10px 0;
+}
+
+.manage-cart {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 15px;
 }
 
 .order-by-flex{

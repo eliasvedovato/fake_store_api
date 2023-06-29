@@ -1,11 +1,11 @@
-import React from 'react'
 import { useState, useEffect } from 'react'
 import './App.css'
 import CategoryList from './components/CategoryList'
 import ProductsList from './components/ProductsList'
 import RangePriceFilter from './components/RangePriceFilter'
 import FilterOrder from './components/FilterOrder'
-import Cart from './components/Cart'
+import SearchInput from './components/SearchInput'
+import Navbar from './components/Navbar'
 
 export interface Product {
 	id: number
@@ -25,30 +25,30 @@ function App(): JSX.Element {
 	const [maxValue, setMaxValue] = useState<number>(0)
 	const [orderBy, setOrderBy] = useState<string>('')
 	const [resetFilter, setResetFilter] = useState<boolean>(false)
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+	const [searchValue, setSearchValue] = useState<string>('')
 
 	const api = 'https://fakestoreapi.com/products'
 
-	/* Esto asegurará que la función defineCategories() se llame solo una vez 
-	al cargar el componente */
-	useEffect(() => {
-		// getProducts()
-	}, [])
-
-	// se ejecutará cuando el estado products cambie
 	useEffect(() => {
 		defineCategories()
 	}, [products])
-
+	
 	useEffect(() => {
 		getProducts()
 	}, [orderBy])
+	
+	useEffect(() => {
+		// filtra en funcion del valor de busqueda y los prpoductos
+		filterProducts()
+	}, [searchValue, products])
 
 	const getProducts = async (): Promise<void> => {
 		try {
 			const response = await fetch(api)
-			const jsonData = await response.json()
+			const data = await response.json()
 
-			const sortedProducts = jsonData.sort((a: Product, b: Product) => {
+			const sortedProducts = data.sort((a: Product, b: Product) => {
 				if (orderBy === 'desc') {
 					return a.price - b.price
 				} else {
@@ -70,7 +70,7 @@ function App(): JSX.Element {
 	}
 
 	const handlePriceFilter = (min: number, max: number): void => {
-		if(!min && !max) throw new Error('Enter min or/and max value')
+		if (!min && !max) throw new Error('Enter min or/and max value')
 		setMinValue(min)
 		setMaxValue(max)
 	}
@@ -87,41 +87,51 @@ function App(): JSX.Element {
 		setResetFilter(!resetFilter)
 	}
 
-	 return (
-			<div className='app'>
+	const handleInputChange = (value: string): void => {
+		setSearchValue(value)
+	}
 
-				<Cart />
-				<div className='buttons-container'>
-					<button onClick={handleAllProducts}>Get all products</button>
-					<button onClick={() => setFiltersToggle(!filtersToggle)}>
-						Filtros
-					</button>
-				</div>
-
-				{filtersToggle && (
-					<div className='filters-container'>
-						<CategoryList
-							categories={categories}
-							setSelectedCategory={setSelectedCategory}
-						/>
-						<div className='options-container'>
-							<RangePriceFilter onPriceFilter={handlePriceFilter} />
-							<FilterOrder onPriceOrder={handleOrderBy} />
-						</div>
-					</div>
-				)}
-
-				<ProductsList
-					products={products.filter(
-						prod =>
-							(selectedCategory === '' ||
-								prod.category === selectedCategory) &&
-							(minValue === 0 || prod.price >= minValue) &&
-							(maxValue === 0 || prod.price <= maxValue)
-					)}
-				/>
-			</div>
+	const filterProducts = (): void => {
+		const filtered = products.filter(product =>
+			product.title.toLowerCase().includes(searchValue.toLowerCase())
 		)
+
+		setFilteredProducts(filtered)
+	}
+
+	return (
+		<div className='app'>
+			<Navbar
+				onHandleAllProducts={handleAllProducts}
+				setFiltersToggle={setFiltersToggle}
+				filtersToggle={filtersToggle}
+			/>
+
+			{filtersToggle && (
+				<div className='filters-container'>
+					<CategoryList
+						categories={categories}
+						setSelectedCategory={setSelectedCategory}
+					/>
+					<div className='options-container'>
+						<RangePriceFilter onPriceFilter={handlePriceFilter} />
+						<FilterOrder onPriceOrder={handleOrderBy} />
+						<SearchInput onInputChange={handleInputChange} />
+					</div>
+				</div>
+			)}
+
+			<ProductsList
+				products={filteredProducts.filter(
+					prod =>
+						(selectedCategory === '' ||
+							prod.category === selectedCategory) &&
+						(minValue === 0 || prod.price >= minValue) &&
+						(maxValue === 0 || prod.price <= maxValue)
+				)}
+			/>
+		</div>
+	)
 }
 
 export default App
