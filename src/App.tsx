@@ -6,6 +6,7 @@ import RangePriceFilter from './components/RangePriceFilter'
 import FilterOrder from './components/FilterOrder'
 import SearchInput from './components/SearchInput'
 import Navbar from './components/Navbar'
+import Cart from './components/Cart'
 
 export interface Product {
 	id: number
@@ -27,6 +28,7 @@ function App(): JSX.Element {
 	const [resetFilter, setResetFilter] = useState<boolean>(false)
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
 	const [searchValue, setSearchValue] = useState<string>('')
+	const [showCart, setShowCart] = useState(false)
 
 	const api = 'https://fakestoreapi.com/products'
 
@@ -105,7 +107,11 @@ function App(): JSX.Element {
 				onHandleAllProducts={handleAllProducts}
 				setFiltersToggle={setFiltersToggle}
 				filtersToggle={filtersToggle}
+				setShowCart={setShowCart}
+				showCart={showCart}
 			/>
+
+			<Cart showCart={showCart} setShowCart={setShowCart} />
 
 			{filtersToggle && (
 				<div className='filters-container'>

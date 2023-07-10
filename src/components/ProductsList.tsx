@@ -5,7 +5,8 @@ interface ProductsListProps {
 }
 
 export default function ProductsList({ products }: ProductsListProps) {
-	const cartQuantity = 0
+
+	const quantity: number = 0
 
 	return (
 		<div className='products-container'>
@@ -34,23 +35,41 @@ export default function ProductsList({ products }: ProductsListProps) {
 							</li>
 							<h3>${product.price}</h3>
 
-							{cartQuantity === 0 ? (
-								<button>+ Add to cart</button>
+							{quantity === 0 ? (
+								<button
+									onClick={() => increaseCartQuantity(product.id)}
+								>
+									+ Add to cart
+								</button>
 							) : (
 								<>
 									<div className='manage-cart'>
-										<button>-</button>
+										<button
+											onClick={() =>
+												decreaseCartQuantity(product.id)
+											}
+										>
+											-
+										</button>
 										<div>
 											<span style={{ fontSize: 20 }}>
-												{cartQuantity}
+												{quantity}
 											</span>{' '}
 											in cart
 										</div>
 
-										<button>+</button>
+										<button
+											onClick={() =>
+												increaseCartQuantity(product.id)
+											}
+										>
+											+
+										</button>
 									</div>
 
-									<button>Remove item</button>
+									<button onClick={() => removeFromCart(product.id)}>
+										Remove item
+									</button>
 								</>
 							)}
 						</div>
