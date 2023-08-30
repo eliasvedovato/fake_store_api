@@ -1,4 +1,5 @@
 import { FaShoppingCart } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 interface NavbarProps {
 	onHandleAllProducts: () => void
@@ -21,13 +22,17 @@ export default function Navbar({
 			<button onClick={() => setFiltersToggle(!filtersToggle)}>
 				Filtros
 			</button>
-			<button
-				style={{ position: 'relative' }}
+
+			<Link to='/cart'>
+				<button
+				// style={{ position: 'relative' }}
 				onClick={() => setShowCart(!showCart)}
 			>
 				<FaShoppingCart />
-				<div className='quantity-cart'>3</div>
+				{/* <div className='quantity-cart'></div> */}
 			</button>
+			</Link>
+			
 		</div>
 	)
 }

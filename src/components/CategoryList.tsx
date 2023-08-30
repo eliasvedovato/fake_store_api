@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 interface CategoryListProps {
 	categories: Set<string>
@@ -8,13 +8,24 @@ interface CategoryListProps {
 export default function CategoryList({ categories, setSelectedCategory }: CategoryListProps ) {
 	const categoryArray = categories ? Array.from(categories) : []
 
+	const [selectedCategory, setSelectedCategoryLocal] = useState('')
+
+	useEffect(() => {
+		setSelectedCategoryLocal('')
+	}, [])
+
 	return (
 		<ul className='category-list'>
 			{categoryArray.map((category, index) => (
 				<li
 					key={index}
-					onClick={() => setSelectedCategory(category)}
-					className='each-category'
+					onClick={() => {
+						setSelectedCategory(category)
+						setSelectedCategoryLocal(category)
+					}}
+					className={`each-category ${
+						selectedCategory === category ? 'selected' : ''
+					}`}
 				>
 					{category.toUpperCase()}
 				</li>

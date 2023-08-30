@@ -7,19 +7,16 @@ interface FilterOrderProps {
 
 export default function FilterOrder({ onPriceOrder }: FilterOrderProps) {
 	const [toggleDropdown, setToggleDropdown] = useState(false)
+	const [highOrLow, setHighOrLow] = useState('high')
 
    const handleOrder = (order: string) => {
     onPriceOrder(order)
-    /* Llama a la función handlePriceOrder del componente 
-    padre con el orden seleccionado */
     setToggleDropdown(false)
-    // Cierra el dropdown después de seleccionar el orden
+		order === 'desc' ? setHighOrLow('low') : setHighOrLow('high')
   }
 
 	return (
-		<div
-			className='order-by-flex'
-		>
+		<div className='order-by-flex'>
 			<button
 				className='order-by-button'
 				onClick={() => setToggleDropdown(!toggleDropdown)}
@@ -29,17 +26,25 @@ export default function FilterOrder({ onPriceOrder }: FilterOrderProps) {
 			</button>
 			<div style={{ display: toggleDropdown ? 'block' : 'none' }}>
 				<div
-					style={{ display: 'flex', flexDirection: 'column', gap: 5 }}
+					style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 10, }}
 				>
 					<span
 						className='order-by-options'
 						onClick={() => handleOrder('desc')}
+						style={{
+							textDecoration:
+								highOrLow === 'low' ? 'underline' : 'none',
+						}}
 					>
 						Menor precio
 					</span>
 					<span
 						className='order-by-options'
 						onClick={() => handleOrder('asc')}
+						style={{
+							textDecoration:
+								highOrLow === 'high' ? 'underline' : 'none',
+						}}
 					>
 						Mayor precio
 					</span>
