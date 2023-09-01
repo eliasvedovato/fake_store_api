@@ -63,6 +63,7 @@ export default function Home(): JSX.Element {
 
   const handlePriceFilter = (min: number, max: number): void => {
 		if (!min && !max) alert('Enter min or/and max value')
+		if(min || max > 0) alert('Dont enter negative numbers')
 		setMinValue(min)
 		setMaxValue(max)
   }

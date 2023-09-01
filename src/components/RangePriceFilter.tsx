@@ -23,22 +23,28 @@ export default function PriceFilter({ onPriceFilter }: PriceFilterProps) {
 	return (
 		<div className='range-price-flex'>
 			<div>
-				<label htmlFor='min' style={{marginRight: 10}}>Min:</label>
+				<label htmlFor='min' style={{ marginRight: 10 }}>
+					Min:
+				</label>
 				<input
 					type='number'
 					id='min'
 					placeholder='Min'
+					min='0'
 					onChange={e => setMin(parseInt(e.target.value))}
 					onKeyDown={handleKeyDown}
 				></input>
 			</div>
 			<span>-</span>
 			<div>
-				<label htmlFor='max' style={{marginRight: 10}}>Max:</label>
+				<label htmlFor='max' style={{ marginRight: 10 }}>
+					Max:
+				</label>
 				<input
 					type='number'
 					id='max'
 					placeholder='Max'
+					min='0'
 					onChange={e => setMax(parseInt(e.target.value))}
 					onKeyDown={handleKeyDown}
 				></input>
