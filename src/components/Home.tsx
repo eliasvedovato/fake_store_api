@@ -9,7 +9,7 @@ import SearchInput from './SearchInput'
 import Navbar from './Navbar'
 
 export default function Home(): JSX.Element {
-  const [filtersToggle, setFiltersToggle] = useState<boolean>(true)
+  const [filtersToggle, setFiltersToggle] = useState<boolean>(false)
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Set<string>>(new Set())
   const [selectedCategory, setSelectedCategory] = useState<string>('')

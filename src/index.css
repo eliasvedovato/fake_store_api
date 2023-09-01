@@ -16,6 +16,11 @@ li{
 
 ul{
   padding-left: 0;
+  background: grey;
+}
+
+span{
+  font-size: 20;
 }
 
 button {
@@ -30,7 +35,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: green;
 }
 button:focus,
 button:focus-visible {
@@ -39,4 +44,8 @@ button:focus-visible {
 
 input{
   text-align: center;
+}
+
+input:focus{
+  border-color: green;
 }

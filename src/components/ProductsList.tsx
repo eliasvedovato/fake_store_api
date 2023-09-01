@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom'
 import { Product } from '../App'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../hooks/useCart'
+import ManageItem from './ManageItem'
 
 interface ProductsListProps {
 	products: Product[]
 }
 
 export default function ProductsList({ products }: ProductsListProps) {
-	const { cartItems, addToCart } = useCart()
+	const { cartItems, manageCart } = useCart()
 
 	return (
 		<div className='products-container'>
@@ -15,25 +17,21 @@ export default function ProductsList({ products }: ProductsListProps) {
 				const quantity = cartItem ? cartItem.quantity : 0
 
 				return (
-					<ul key={product.id} style={{ background: 'grey' }}>
+					<ul key={product.id}>
 						<div className='product-flex'>
-							<div>
-								<img
-									src={product.image}
-									height={150}
-									alt={product.title}
-								/>
-							</div>
+							<img
+								src={product.image}
+								height={150}
+								alt={product.title}
+							/>
 							<div className='product-info'>
-								<li style={{ border: '1px solid white' }}>
-									{product.title}
-								</li>
+								<li>{product.title}</li>
 								<h3>${product.price}</h3>
 
 								{quantity === 0 ? (
 									<button
 										onClick={() =>
-											addToCart({
+											manageCart({
 												...product,
 												quantity: 1,
 											})
@@ -43,41 +41,10 @@ export default function ProductsList({ products }: ProductsListProps) {
 									</button>
 								) : (
 									<>
-										<div className='manage-cart'>
-											<button
-												onClick={() =>
-													addToCart({
-														...product,
-														quantity: quantity - 1,
-													})
-												}
-											>
-												-
-											</button>
-											<span style={{ fontSize: 20 }}>
-												{quantity} in cart
-											</span>
-											<button
-												onClick={() =>
-													addToCart({
-														...product,
-														quantity: quantity + 1,
-													})
-												}
-											>
-												+
-											</button>
-										</div>
-										<button
-											onClick={() =>
-												addToCart({
-													...product,
-													quantity: 0,
-												})
-											}
-										>
-											Remove
-										</button>
+										<ManageItem product={product} />
+										<Link to='/cart'>
+											<button>Go to cart</button>
+										</Link>
 									</>
 								)}
 							</div>

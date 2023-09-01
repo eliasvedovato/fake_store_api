@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import { Product } from '../App'
 
 interface CartContextType {
 	cartItems: Product[]
-	addToCart: (product: Product) => void
+	manageCart: (product: Product) => void
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -11,7 +11,7 @@ export const CartContext = createContext<CartContextType | undefined>(undefined)
 export const CartProvider: React.FC = ({ children }: any) => {
 	const [cartItems, setCartItems] = useState<Product[]>([])
 
-	const addToCart = (product: Product) => {
+	const manageCart = (product: Product) => {
 		if (product.quantity === 0) {
 			// Elimina el producto del carrito
 			setCartItems(prevCart =>
@@ -45,16 +45,8 @@ export const CartProvider: React.FC = ({ children }: any) => {
 	}, [cartItems])
 
 	return (
-		<CartContext.Provider value={{ cartItems, addToCart }}>
+		<CartContext.Provider value={{ cartItems, manageCart }}>
 			{children}
 		</CartContext.Provider>
 	)
-}
-
-export const useCart = () => {
-	const context = useContext(CartContext)
-	if (!context) {
-		throw new Error('useCart must be used within a CartProvider')
-	}
-	return context
 }

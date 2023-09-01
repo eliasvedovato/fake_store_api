@@ -1,9 +1,10 @@
 import { AiOutlineClose } from 'react-icons/ai'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../hooks/useCart'
 import { Link } from 'react-router-dom'
+import ManageItem from './ManageItem'
 
 function Cart() {
-	const { cartItems, addToCart } = useCart()
+	const { cartItems } = useCart()
 	const calculateTotal = () => {
 		return cartItems.reduce(
 			(total, item) => total + item.price * item.quantity,
@@ -18,17 +19,21 @@ function Cart() {
 			</Link>
 
 			<h1>Cart</h1>
-			<div className='cart-items'>
+
+			{cartItems.length === 0 && <h4>the cart is empty</h4>}
+
+			<ul className='cart-items'>
 				{cartItems.map(item => (
 					<div key={item.id} className='cart-item'>
 						<img src={item.image} width={150} />
 						<h4>{item.title}</h4>
-						<p>Quantity: {item.quantity}</p>
+						<ManageItem product={item} />
 						<p>Price: ${item.price}</p>
 					</div>
 				))}
-			</div>
+			</ul>
 
+			<hr></hr>
 			<h2>Total: ${calculateTotal().toFixed()}</h2>
 		</div>
 	)

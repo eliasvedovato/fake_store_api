@@ -13,7 +13,7 @@ export interface Product {
 	quantity: number
 }
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
 	return (
 		<Router>
 			<Routes>
@@ -23,5 +23,3 @@ function App(): JSX.Element {
 		</Router>
 	)
 }
-
-export default App
