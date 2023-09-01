@@ -9,33 +9,37 @@ import SearchInput from './SearchInput'
 import Navbar from './Navbar'
 
 export default function Home(): JSX.Element {
-  const [filtersToggle, setFiltersToggle] = useState<boolean>(false)
-  const [products, setProducts] = useState<Product[]>([])
-  const [categories, setCategories] = useState<Set<string>>(new Set())
-  const [selectedCategory, setSelectedCategory] = useState<string>('')
-  const [minValue, setMinValue] = useState<number>(0)
-  const [maxValue, setMaxValue] = useState<number>(0)
-  const [orderBy, setOrderBy] = useState<string>('')
-  const [resetFilter, setResetFilter] = useState<boolean>(false)
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
-  const [searchValue, setSearchValue] = useState<string>('')
-  const [showCart, setShowCart] = useState(false)
-  const api = 'https://fakestoreapi.com/products'
+	const [filtersToggle, setFiltersToggle] = useState<boolean>(false)
+	const [products, setProducts] = useState<Product[]>([])
+	const [categories, setCategories] = useState<Set<string>>(new Set())
+	const [selectedCategory, setSelectedCategory] = useState<string>('')
+	const [minValue, setMinValue] = useState<number>(0)
+	const [maxValue, setMaxValue] = useState<number>(0)
+	const [orderBy, setOrderBy] = useState<string>('')
+	const [resetFilter, setResetFilter] = useState<boolean>(false)
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+	const [searchValue, setSearchValue] = useState<string>('')
+	const [showCart, setShowCart] = useState(false)
+	const api = 'https://fakestoreapi.com/products'
 
-  useEffect(() => {
+	useEffect(() => {
 		defineCategories()
-  }, [products])
+	}, [products])
 
-  useEffect(() => {
+	useEffect(() => {
+		console.log(selectedCategory)
+	}, [selectedCategory])
+
+	useEffect(() => {
 		getProducts()
-  }, [orderBy])
+	}, [orderBy])
 
-  useEffect(() => {
+	useEffect(() => {
 		// filtra en funcion del valor de busqueda y los productos
 		filterProducts()
-  }, [searchValue, products])
+	}, [searchValue, products])
 
-  const getProducts = async (): Promise<void> => {
+	const getProducts = async (): Promise<void> => {
 		try {
 			const response = await fetch(api)
 			const data = await response.json()
@@ -52,45 +56,44 @@ export default function Home(): JSX.Element {
 		} catch (error) {
 			console.error('Error fetching products:', error)
 		}
-  }
+	}
 
-  const defineCategories = (): void => {
+	const defineCategories = (): void => {
 		const newCategories = new Set([
 			...products.map(({ category }) => category),
 		])
 		setCategories(newCategories)
-  }
+	}
 
-  const handlePriceFilter = (min: number, max: number): void => {
+	const handlePriceFilter = (min: number, max: number): void => {
 		if (!min && !max) alert('Enter min or/and max value')
-		if(min || max > 0) alert('Dont enter negative numbers')
 		setMinValue(min)
 		setMaxValue(max)
-  }
+	}
 
-  const handleOrderBy = (order: string) => {
+	const handleOrderBy = (order: string) => {
 		setOrderBy(order)
-  }
+	}
 
-  const handleAllProducts = (): void => {
+	const handleAllProducts = (): void => {
 		// Resetea varios filtros
 		setSelectedCategory('')
 		setMinValue(0)
 		setMaxValue(0)
 		setResetFilter(!resetFilter)
-  }
+	}
 
-  const handleInputChange = (value: string): void => {
+	const handleInputChange = (value: string): void => {
 		setSearchValue(value)
-  }
+	}
 
-  const filterProducts = (): void => {
+	const filterProducts = (): void => {
 		const filtered = products.filter(product =>
 			product.title.toLowerCase().includes(searchValue.toLowerCase())
 		)
 
 		setFilteredProducts(filtered)
-  }
+	}
 
 	return (
 		<div className='home'>
@@ -106,6 +109,7 @@ export default function Home(): JSX.Element {
 				<div className='filters-container'>
 					<CategoryList
 						categories={categories}
+						selectedCategory={selectedCategory}
 						setSelectedCategory={setSelectedCategory}
 					/>
 					<div className='options-container'>

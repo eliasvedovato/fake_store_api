@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react"
-
 interface CategoryListProps {
 	categories: Set<string>
+	selectedCategory: string
 	setSelectedCategory: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function CategoryList({ categories, setSelectedCategory }: CategoryListProps ) {
+export default function CategoryList({ categories, selectedCategory, setSelectedCategory }: CategoryListProps ) {
 	const categoryArray = categories ? Array.from(categories) : []
-
-	const [selectedCategory, setSelectedCategoryLocal] = useState('')
-
-	useEffect(() => {
-		setSelectedCategoryLocal('')
-	}, [])
 
 	return (
 		<ul className='category-list'>
@@ -21,7 +14,6 @@ export default function CategoryList({ categories, setSelectedCategory }: Catego
 					key={index}
 					onClick={() => {
 						setSelectedCategory(category)
-						setSelectedCategoryLocal(category)
 					}}
 					className={`each-category ${
 						selectedCategory === category ? 'selected' : ''
